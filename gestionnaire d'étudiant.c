@@ -10,6 +10,9 @@ typedef struct Etudiant {
 } Etudiant;
 
 
+// *****************************************
+// Ajouter un étudiant en tête
+// *****************************************
 Etudiant* ajouterEnTete(Etudiant* tete) {
     Etudiant* nouv = malloc(sizeof(Etudiant));
     if (!nouv) {
@@ -29,6 +32,9 @@ Etudiant* ajouterEnTete(Etudiant* tete) {
 }
 
 
+// *****************************************
+// Ajouter après un ID donné
+// *****************************************
 void ajouterApres(Etudiant* tete, int id) {
     Etudiant* courant = tete;
 
@@ -41,6 +47,11 @@ void ajouterApres(Etudiant* tete, int id) {
     }
 
     Etudiant* nouv = malloc(sizeof(Etudiant));
+    if (!nouv) {
+        printf("Erreur d'allocation.\n");
+        return;
+    }
+
     printf("ID Kairos : ");
     scanf("%d", &nouv->idKairos);
     printf("Nom : ");
@@ -53,6 +64,9 @@ void ajouterApres(Etudiant* tete, int id) {
 }
 
 
+// *****************************************
+// Supprimer un étudiant par ID
+// *****************************************
 Etudiant* supprimerParID(Etudiant* tete, int id) {
     if (tete == NULL) return NULL;
 
@@ -79,11 +93,15 @@ Etudiant* supprimerParID(Etudiant* tete, int id) {
 }
 
 
+// *****************************************
+// Afficher la liste des étudiants
+// *****************************************
 void afficherListe(Etudiant* tete) {
     if (!tete) {
         printf("Liste vide.\n");
         return;
     }
+
     while (tete != NULL) {
         printf("ID:%d | Nom:%s | Moyenne:%.2f\n",
                tete->idKairos, tete->nom, tete->moyenne);
@@ -92,22 +110,31 @@ void afficherListe(Etudiant* tete) {
 }
 
 
+// *****************************************
+// Calculer la moyenne générale
+// *****************************************
 void moyenneEtudiants(Etudiant* tete) {
     if (!tete) {
         printf("Liste vide.\n");
         return;
     }
+
     int c = 0;
     float somme = 0;
+
     while (tete) {
         somme += tete->moyenne;
         c++;
         tete = tete->suivant;
     }
+
     printf("Moyenne générale : %.2f\n", somme / c);
 }
 
 
+// *****************************************
+// Supprimer le dernier élément
+// *****************************************
 Etudiant* supprimerDernier(Etudiant* tete) {
     if (!tete) return NULL;
 
@@ -122,10 +149,14 @@ Etudiant* supprimerDernier(Etudiant* tete) {
 
     free(courant->suivant);
     courant->suivant = NULL;
+
     return tete;
 }
 
 
+// *****************************************
+// Vider totalement la liste
+// *****************************************
 Etudiant* viderListe(Etudiant* tete) {
     Etudiant* tmp;
     while (tete != NULL) {
@@ -137,6 +168,9 @@ Etudiant* viderListe(Etudiant* tete) {
 }
 
 
+// *****************************************
+// PROGRAMME PRINCIPAL SANS SWITCH
+// *****************************************
 int main() {
     Etudiant* liste = NULL;
     int choix, id;
@@ -154,45 +188,36 @@ int main() {
         printf("Votre choix : ");
         scanf("%d", &choix);
 
-        switch (choix) {
-            case 1:
-                liste = ajouterEnTete(liste);
-                break;
-
-            case 2:
-                printf("ID après lequel ajouter : ");
-                scanf("%d", &id);
-                ajouterApres(liste, id);
-                break;
-
-            case 3:
-                printf("ID a supprimer : ");
-                scanf("%d", &id);
-                liste = supprimerParID(liste, id);
-                break;
-
-            case 4:
-                afficherListe(liste);
-                break;
-
-            case 5:
-                moyenneEtudiants(liste);
-                break;
-
-            case 6:
-                liste = supprimerDernier(liste);
-                break;
-
-            case 7:
-                liste = viderListe(liste);
-                break;
-
-            case 8:
-                printf("Au revoir !\n");
-                break;
-
-            default:
-                printf("Choix invalide.\n");
+        if (choix == 1) {
+            liste = ajouterEnTete(liste);
+        }
+        else if (choix == 2) {
+            printf("ID après lequel ajouter : ");
+            scanf("%d", &id);
+            ajouterApres(liste, id);
+        }
+        else if (choix == 3) {
+            printf("ID à supprimer : ");
+            scanf("%d", &id);
+            liste = supprimerParID(liste, id);
+        }
+        else if (choix == 4) {
+            afficherListe(liste);
+        }
+        else if (choix == 5) {
+            moyenneEtudiants(liste);
+        }
+        else if (choix == 6) {
+            liste = supprimerDernier(liste);
+        }
+        else if (choix == 7) {
+            liste = viderListe(liste);
+        }
+        else if (choix == 8) {
+            printf("Au revoir !\n");
+        }
+        else {
+            printf("Choix invalide.\n");
         }
 
     } while (choix != 8);
@@ -200,7 +225,10 @@ int main() {
     return 0;
 }
 
+            
+
     
+
 
 
 
